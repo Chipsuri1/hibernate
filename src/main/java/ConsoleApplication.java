@@ -119,11 +119,14 @@ public class ConsoleApplication {
     }
 
     private void removeDrugByNumber(Integer drug_number) {
-        Drug_Box drug_box = new Drug_Box();
-        drug_box.setDrug_number(drug_number);
+        Query query = session.createQuery("from Drug_Box Dr where drug_number = :drugnumber");
+        query.setParameter("drugnumber", drug_number);
 
+        Drug_Box drug_box = (Drug_Box) query.list().get(0);
+        Drug drug = drug_box.getDrug();
 
         session.delete(drug_box);
+        session.delete(drug);
     }
 
     private void removeDrugByName(String drug_name) {
