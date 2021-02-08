@@ -4,10 +4,10 @@
 <hibernate-mapping>
     <class name="Box_Storage" table="box_storage" catalog="db8905135" optimistic-lock="version">
         <id name="box_id" type="java.lang.String">
-            <column name="box_id" length="3" not-null="false"/>
+            <column name="box_id" length="3" not-null="false" default="''"/>
         </id>
         <property name="storage_id" type="string">
-            <column name="storage_id" length="3" not-null="false"/>
+            <column name="storage_id" length="3" not-null="false" default="''"/>
         </property>
     </class>
 </hibernate-mapping>

@@ -7,10 +7,10 @@
             <column name="order_id" length="10" not-null="false"/>
         </id>
         <property name="order_date" type="timestamp">
-            <column name="order_date" length="10"/>
+            <column name="order_date" length="10" not-null="false" default=""/>
         </property>
         <property name="supplier" type="java.lang.String">
-            <column name="supplier" length="7" not-null="false"/>
+            <column name="supplier" length="7" not-null="false" default=""/>
         </property>
         <many-to-one name="customer" class="Customer"
                      column="customer_id" unique="true" not-null="false"

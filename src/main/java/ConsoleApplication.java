@@ -111,7 +111,8 @@ public class ConsoleApplication {
 
     private void addDrugToBox(Integer drug_number, String drug_name, Float price, Integer quantity, String box_id) {
         Drug drug = new Drug(drug_name, quantity, price);
-        Box_Storage box_storage = new Box_Storage(box_id, box_id);
+        Box_Storage box_storage = new Box_Storage();
+        box_storage.setBox_id(box_id);
 
         Drug_Box drug_box = new Drug_Box(drug_number, drug, box_storage);
 
@@ -154,8 +155,13 @@ public class ConsoleApplication {
         Query query = session.createQuery("from Customer C where customer_id = :customer_idParameter");
         query.setParameter("customer_idParameter", customer_id);
 
+        Customer customer = (Customer) query.list().get(0);
 
+        Orders order = new Orders();
+        order.setOrder_id(order_id);
+        order.setCustomer(customer);
 
+        session.save(order);
     }
 
     private void addDrugWithQuantityToOrder(Integer drug_id, Integer quantity, Integer order_id) {

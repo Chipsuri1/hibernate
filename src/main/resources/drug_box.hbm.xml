@@ -6,13 +6,19 @@
         <id name="drug_number" type="java.lang.Integer">
             <column name="drug_number" length="6" not-null="false"/>
         </id>
-        <many-to-one name="box_storage" class="Box_Storage"
-                     column="box_id" unique="true" not-null="false"
-                     cascade="all">
-        </many-to-one>
         <many-to-one name="drug" class="Drug"
                      column="drug_name" unique="true" not-null="false"
                      cascade="all">
         </many-to-one>
+        <many-to-one name="box_storage" class="Box_Storage"
+                     column="box_id" unique="true" not-null="false"
+                     cascade="all">
+        </many-to-one>
+<!--        <set name="box_storage" table="box_storage" lazy="true" fetch="select">-->
+<!--            <key>-->
+<!--                <column name="box_id" not-null="false"/>-->
+<!--            </key>-->
+<!--            <one-to-many class="Box_Storage"/>-->
+<!--        </set>-->
     </class>
 </hibernate-mapping>

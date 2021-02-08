@@ -17,7 +17,7 @@
         <mapping resource="customer.hbm.xml"/>
         <mapping resource="drug.hbm.xml"/>
         <mapping resource="drug_box.hbm.xml"/>
-<!--        <mapping resource="order_drug.hbm.xml"/>-->
+        <mapping resource="order_drug.hbm.xml"/>
         <mapping resource="box_storage.hbm.xml"/>
 
     </session-factory>

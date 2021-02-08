@@ -1,4 +1,4 @@
-public class Box_Storage {
+public class Box_Storage implements java.io.Serializable {
 
     private String box_id;
     private String storage_id;

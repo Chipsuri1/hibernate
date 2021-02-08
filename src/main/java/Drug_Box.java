@@ -30,7 +30,7 @@ public class Drug_Box {
     }
 
     public Box_Storage getBox_storage() {
-        return box_storage;
+        return this.box_storage;
     }
 
     public void setBox_storage(Box_Storage box_storage) {
