@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="Order_Drug" table="order_drug" catalog="db8905135" optimistic-lock="version">
+        <composite-id>
+            <key-property name="order" column="order_id"/>
+            <key-property name="drug_box" column="drug_number"/>
+        </composite-id>
+        <property name="amount" type="java.lang.Integer">
+            <column name="customer_id" length="3" not-null="true"/>
+        </property>
+        <many-to-one name="order" class="Orders"
+                     column="order_id" unique="true" not-null="false"
+                     cascade="all">
+        </many-to-one>
+        <many-to-one name="drug_box" class="Drug_Box"
+                     column="drug_number" unique="true" not-null="false"
+                     cascade="all">
+        </many-to-one>
+    </class>
+</hibernate-mapping>

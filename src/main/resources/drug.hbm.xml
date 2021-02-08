@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="Drug" table="drug" catalog="db8905135" optimistic-lock="version">
+        <id name = "drug_name" type="java.lang.String">
+            <column name="drug_name" length="255" not-null="false"/>
+            <generator class="assigned"></generator>
+        </id>
+
+        <property name="price" type="java.lang.Float">
+            <column name="price" not-null="false"/>
+        </property>
+        <property name="quantity" type="java.lang.Integer">
+            <column name="quantity" length="10" not-null="false"/>
+        </property>
+    </class>
+</hibernate-mapping>

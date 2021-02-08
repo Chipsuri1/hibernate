@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="Drug_Box" table="drug_box" catalog="db8905135" optimistic-lock="version">
+        <id name="drug_number" type="java.lang.Integer">
+            <column name="drug_number" length="6" not-null="false"/>
+        </id>
+        <many-to-one name="box_storage" class="Box_Storage"
+                     column="box_id" unique="true" not-null="false"
+                     cascade="all">
+        </many-to-one>
+        <many-to-one name="drug" class="Drug"
+                     column="drug_name" unique="true" not-null="false"
+                     cascade="all">
+        </many-to-one>
+    </class>
+</hibernate-mapping>
