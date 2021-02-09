@@ -73,7 +73,6 @@ public class ConsoleApplication {
                     createNewOrderForCustomer(Integer.valueOf(order_id), Integer.valueOf(customer_id.substring(0, customer_id.length() - 1)));
                     break;
                 case "add drug to order":
-                    //TODO vb
                     String drug_id = query.substring(query.indexOf("(") + 1, query.indexOf(')'));
                     String quantity = query.substring(query.indexOf("quantity") +9, query.indexOf("to") - 1);
                     String order_Id = query.substring(query.indexOf("order") + 7);
