@@ -1,16 +1,17 @@
 import javax.persistence.criteria.CriteriaBuilder;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Orders implements java.io.Serializable {
     private Customer customer;
     private Integer order_id;
-    private Date order_date;
+    private Timestamp order_date;
     public String supplier;
 
     public Orders() {
     }
 
-    public Orders(Customer customer, Integer order_id, Date order_date, String supplier) {
+    public Orders(Customer customer, Integer order_id, Timestamp order_date, String supplier) {
         this.customer = customer;
         this.order_id = order_id;
         this.order_date = order_date;
@@ -33,11 +34,11 @@ public class Orders implements java.io.Serializable {
         this.order_id = order_id;
     }
 
-    public Date getOrder_date() {
+    public Timestamp getOrder_date() {
         return order_date;
     }
 
-    public void setOrder_date(Date order_date) {
+    public void setOrder_date(Timestamp order_date) {
         this.order_date = order_date;
     }
 

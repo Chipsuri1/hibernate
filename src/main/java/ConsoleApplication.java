@@ -2,11 +2,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Query;
 
-import javax.swing.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleApplication {
@@ -19,8 +19,6 @@ public class ConsoleApplication {
         startSession();
         getInput();
         endSession();
-
-        System.out.println("Tschö");
     }
 
     private void startSession() {
@@ -38,39 +36,33 @@ public class ConsoleApplication {
             System.out.println("Please insert your Query-Number or insert 'end' to finish:");
             String query = scanner.nextLine();
 
-            System.out.println("Query:" + query);
+            String input = getInputString(query);
 
-            String input;
-            if(query.equals("end")){
-                input = "end";
-            }else {
-                input = query.substring(0, query.indexOf('(')-1);
-            }
 
             switch (input) {
-                case "add drug":
+                case "add drug to box":
                     String[] drugInfo = query.substring(query.indexOf('(') + 1, query.indexOf(')')).split(",");
                     String box_id = query.substring(query.indexOf("x") + 3, query.indexOf("x") + 6);
 
                     addDrugToBox(Integer.valueOf(drugInfo[0]), drugInfo[1], Float.valueOf(drugInfo[2]), Integer.valueOf(drugInfo[3]), box_id);
                     break;
                 case "remove drug by number":
-                    String drug_number = query.substring(query.indexOf('(') +1 ,query.indexOf( ')'));
+                    String drug_number = query.substring(query.indexOf('(') + 1, query.indexOf(')'));
 
                     removeDrugByNumber(Integer.valueOf(drug_number));
                     break;
                 case "remove drug by name":
-                    String drug_name = query.substring(query.indexOf('(') +1 ,query.indexOf( ')'));
+                    String drug_name = query.substring(query.indexOf('(') + 1, query.indexOf(')'));
 
                     removeDrugByName(drug_name);
                     break;
                 case "add customer":
-                    String[] customer = query.substring(query.indexOf('(') + 1,query.indexOf( ')')).split(",");
+                    String[] customer = query.substring(query.indexOf('(') + 1, query.indexOf(')')).split(",");
 
                     addCustomer(Integer.valueOf(customer[0]), customer[1], customer[2], Integer.valueOf(customer[3]), customer[4], new SimpleDateFormat("dd.MM.yyyy").parse(customer[5]), Integer.valueOf(customer[6]));
                     break;
                 case "search customer by name":
-                    String customer_name = query.substring(query.indexOf('(') +1 ,query.indexOf( ')'));
+                    String customer_name = query.substring(query.indexOf('(') + 1, query.indexOf(')'));
 
                     searchCustomerByName(customer_name);
                     break;
@@ -80,13 +72,14 @@ public class ConsoleApplication {
 
                     createNewOrderForCustomer(Integer.valueOf(order_id), Integer.valueOf(customer_id.substring(0, customer_id.length() - 1)));
                     break;
-//                case "add drug":
-//                    //TODO vb
-//                    String drug_id = query.substring(query.indexOf("drug") + 6, query.indexOf(')'));
-//                    String quantity = query.substring(query.indexOf("quantity" + 10));
-//
-//                    addDrugWithQuantityToOrder(Integer.valueOf(drug_id), Float.valueOf(quantity));
-//                    break;
+                case "add drug to order":
+                    //TODO vb
+                    String drug_id = query.substring(query.indexOf("(") + 1, query.indexOf(')'));
+                    String quantity = query.substring(query.indexOf("quantity") +9, query.indexOf("to") - 1);
+                    String order_Id = query.substring(query.indexOf("order") + 7);
+
+                    addDrugWithQuantityToOrder(Integer.valueOf(drug_id), Integer.valueOf(quantity), Integer.valueOf(order_Id.substring(0, order_Id.length() - 1)));
+                    break;
                 case "send order":
                     String id = query.substring(query.indexOf('(') + 1, query.indexOf(')'));
                     String supplier = query.substring(query.indexOf('y') + 3);
@@ -96,6 +89,7 @@ public class ConsoleApplication {
                     break;
                 case "end":
                     finished = true;
+                    System.out.println("Finished");
                     break;
                 default:
                     System.out.println("Input invalid! Please check your Query Number.");
@@ -107,6 +101,18 @@ public class ConsoleApplication {
 
     private void endSession() {
         session.getTransaction().commit();
+    }
+
+    private String getInputString(String query) {
+        if (query.equals("end")) {
+            return "end";
+        } else if (query.indexOf("to order") != -1) {
+            return "add drug to order";
+        } else if (query.indexOf("to box") != -1) {
+            return "add drug to box";
+        } else {
+            return query.substring(0, query.indexOf('(') - 1);
+        }
     }
 
     private void addDrugToBox(Integer drug_number, String drug_name, Float price, Integer quantity, String box_id) {
@@ -148,7 +154,7 @@ public class ConsoleApplication {
         query.setParameter("nameParameter", name);
 
         Customer customer = (Customer) query.list().get(0);
-        System.out.println(customer.getCustomerInformation());
+        System.out.println("Customer Information: " + customer.getCustomerInformation());
     }
 
     private void createNewOrderForCustomer(Integer order_id, Integer customer_id) {
@@ -158,14 +164,25 @@ public class ConsoleApplication {
         Customer customer = (Customer) query.list().get(0);
 
         Orders order = new Orders();
+        order.setOrder_date(new Timestamp(System.currentTimeMillis()));
         order.setOrder_id(order_id);
         order.setCustomer(customer);
 
         session.save(order);
     }
 
-    private void addDrugWithQuantityToOrder(Integer drug_id, Integer quantity, Integer order_id) {
+    private void addDrugWithQuantityToOrder(Integer drug_number, Integer quantity, Integer order_id) {
+        Query queryDrugBox = session.createQuery("from Drug_Box D where drug_number = :drugNumber");
+        queryDrugBox.setParameter("drugNumber", drug_number);
+        Drug_Box drug_box = (Drug_Box) queryDrugBox.list().get(0);
 
+        Query queryOrder = session.createQuery("from Orders D where order_id = :orderID");
+        queryOrder.setParameter("orderID", order_id);
+        Orders order = (Orders) queryOrder.list().get(0);
+
+        Order_Drug order_drug = new Order_Drug(order, drug_box, quantity);
+
+        session.save(order_drug);
     }
 
     private void sendOrderBy(Integer order_id, String shipping_company) {
