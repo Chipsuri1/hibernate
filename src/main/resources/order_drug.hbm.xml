@@ -16,13 +16,13 @@
         <property name="amount" type="java.lang.Integer">
             <column name="amount" length="3" not-null="true" default=""/>
         </property>
-        <many-to-one name="order" class="Orders" update="false" insert="false"
-                     column="order_id" unique="true" not-null="false"
-                     cascade="all">
-        </many-to-one>
-        <many-to-one name="drug_box" class="Drug_Box" update="false" insert="false"
-                     column="drug_number" unique="true" not-null="false"
-                     cascade="all">
-        </many-to-one>
+<!--        <many-to-one name="order" class="Orders" update="false" insert="false"-->
+<!--                     column="order_id" unique="true" not-null="false"-->
+<!--                     cascade="all">-->
+<!--        </many-to-one>-->
+<!--        <many-to-one name="drug_box" class="Drug_Box" update="false" insert="false"-->
+<!--                     column="drug_number" unique="true" not-null="false"-->
+<!--                     cascade="all">-->
+<!--        </many-to-one>-->
     </class>
 </hibernate-mapping>

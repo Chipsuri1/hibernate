@@ -125,14 +125,12 @@ public class ConsoleApplication {
     }
 
     private void removeDrugByNumber(Integer drug_number) {
-        Query query = session.createQuery("from Drug_Box Dr where drug_number = :drugnumber");
-        query.setParameter("drugnumber", drug_number);
+        Query query = session.createQuery("from Drug_Box where drug_number = :drugNumber");
+        query.setParameter("drugNumber", drug_number);
 
         Drug_Box drug_box = (Drug_Box) query.list().get(0);
-        Drug drug = drug_box.getDrug();
 
         session.delete(drug_box);
-        session.delete(drug);
     }
 
     private void removeDrugByName(String drug_name) {
@@ -149,7 +147,7 @@ public class ConsoleApplication {
     }
 
     private void searchCustomerByName(String name) {
-        Query query = session.createQuery("from Customer C where customer_name = :nameParameter");
+        Query query = session.createQuery("from Customer where customer_name = :nameParameter");
         query.setParameter("nameParameter", name);
 
         Customer customer = (Customer) query.list().get(0);
@@ -157,7 +155,7 @@ public class ConsoleApplication {
     }
 
     private void createNewOrderForCustomer(Integer order_id, Integer customer_id) {
-        Query query = session.createQuery("from Customer C where customer_id = :customer_idParameter");
+        Query query = session.createQuery("from Customer where customer_id = :customer_idParameter");
         query.setParameter("customer_idParameter", customer_id);
 
         Customer customer = (Customer) query.list().get(0);
@@ -171,11 +169,11 @@ public class ConsoleApplication {
     }
 
     private void addDrugWithQuantityToOrder(Integer drug_number, Integer quantity, Integer order_id) {
-        Query queryDrugBox = session.createQuery("from Drug_Box D where drug_number = :drugNumber");
+        Query queryDrugBox = session.createQuery("from Drug_Box where drug_number = :drugNumber");
         queryDrugBox.setParameter("drugNumber", drug_number);
         Drug_Box drug_box = (Drug_Box) queryDrugBox.list().get(0);
 
-        Query queryOrder = session.createQuery("from Orders D where order_id = :orderID");
+        Query queryOrder = session.createQuery("from Orders where order_id = :orderID");
         queryOrder.setParameter("orderID", order_id);
         Orders order = (Orders) queryOrder.list().get(0);
 
