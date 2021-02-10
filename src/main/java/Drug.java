@@ -6,7 +6,7 @@ public class Drug {
 
     public Drug(){
     }
-//
+
     public Drug(String drug_name, Integer quantity, Float price){
         this.drug_name = drug_name;
         this.quantity = quantity;

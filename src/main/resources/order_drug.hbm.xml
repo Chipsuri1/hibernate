@@ -6,23 +6,9 @@
         <composite-id class="Order_Drug">
             <key-many-to-one name="order" column="order_id" class="Orders"/>
             <key-many-to-one name="drug_box" column="drug_number" class="Drug_Box"/>
-<!--            <key-property name="order" type="java.lang.Integer">-->
-<!--                <column name="order_id"/>-->
-<!--            </key-property>-->
-<!--            <key-property name="drug_box" column="drug_number">-->
-<!--                -->
-<!--            </key-property>-->
         </composite-id>
         <property name="amount" type="java.lang.Integer">
             <column name="amount" length="3" not-null="true" default=""/>
         </property>
-<!--        <many-to-one name="order" class="Orders" update="false" insert="false"-->
-<!--                     column="order_id" unique="true" not-null="false"-->
-<!--                     cascade="all">-->
-<!--        </many-to-one>-->
-<!--        <many-to-one name="drug_box" class="Drug_Box" update="false" insert="false"-->
-<!--                     column="drug_number" unique="true" not-null="false"-->
-<!--                     cascade="all">-->
-<!--        </many-to-one>-->
     </class>
 </hibernate-mapping>

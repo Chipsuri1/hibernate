@@ -2,7 +2,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Query;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +36,6 @@ public class ConsoleApplication {
             String query = scanner.nextLine();
 
             String input = getInputString(query);
-
 
             switch (input) {
                 case "add drug to box":
@@ -74,7 +72,7 @@ public class ConsoleApplication {
                     break;
                 case "add drug to order":
                     String drug_id = query.substring(query.indexOf("(") + 1, query.indexOf(')'));
-                    String quantity = query.substring(query.indexOf("quantity") +9, query.indexOf("to") - 1);
+                    String quantity = query.substring(query.indexOf("quantity") + 9, query.indexOf("to") - 1);
                     String order_Id = query.substring(query.indexOf("order") + 7);
 
                     addDrugWithQuantityToOrder(Integer.valueOf(drug_id), Integer.valueOf(quantity), Integer.valueOf(order_Id.substring(0, order_Id.length() - 1)));
@@ -95,7 +93,6 @@ public class ConsoleApplication {
                     break;
             }
         }
-
     }
 
     private void endSession() {
@@ -125,17 +122,16 @@ public class ConsoleApplication {
     }
 
     private void removeDrugByNumber(Integer drug_number) {
-        Query query = session.createQuery("from Drug_Box where drug_number = :drugNumber");
-        query.setParameter("drugNumber", drug_number);
-
+        Query query = session.createQuery("from Drug_Box where drug_number = " + drug_number);
         Drug_Box drug_box = (Drug_Box) query.list().get(0);
 
         session.delete(drug_box);
     }
 
     private void removeDrugByName(String drug_name) {
-        Drug drug = new Drug();
-        drug.setDrug_name(drug_name);
+        Query query = session.createQuery("from Drug where drug_name = :drug_name");
+        query.setParameter("drug_name", drug_name);
+        Drug drug = (Drug) query.list().get(0);
 
         session.delete(drug);
     }
@@ -147,17 +143,16 @@ public class ConsoleApplication {
     }
 
     private void searchCustomerByName(String name) {
-        Query query = session.createQuery("from Customer where customer_name = :nameParameter");
-        query.setParameter("nameParameter", name);
-
+        Query query = session.createQuery("from Customer where customer_name like :name");
+        query.setParameter("name", name);
         Customer customer = (Customer) query.list().get(0);
+
         System.out.println("Customer Information: " + customer.getCustomerInformation());
     }
 
     private void createNewOrderForCustomer(Integer order_id, Integer customer_id) {
-        Query query = session.createQuery("from Customer where customer_id = :customer_idParameter");
-        query.setParameter("customer_idParameter", customer_id);
-
+        Query query = session.createQuery("from Customer where customer_id = :customer_id");
+        query.setParameter("customer_id", customer_id);
         Customer customer = (Customer) query.list().get(0);
 
         Orders order = new Orders();
@@ -169,12 +164,12 @@ public class ConsoleApplication {
     }
 
     private void addDrugWithQuantityToOrder(Integer drug_number, Integer quantity, Integer order_id) {
-        Query queryDrugBox = session.createQuery("from Drug_Box where drug_number = :drugNumber");
-        queryDrugBox.setParameter("drugNumber", drug_number);
+        Query queryDrugBox = session.createQuery("from Drug_Box where drug_number = :drug_number");
+        queryDrugBox.setParameter("drug_number", drug_number);
         Drug_Box drug_box = (Drug_Box) queryDrugBox.list().get(0);
 
-        Query queryOrder = session.createQuery("from Orders where order_id = :orderID");
-        queryOrder.setParameter("orderID", order_id);
+        Query queryOrder = session.createQuery("from Orders where order_id = :order_id");
+        queryOrder.setParameter("order_id", order_id);
         Orders order = (Orders) queryOrder.list().get(0);
 
         Order_Drug order_drug = new Order_Drug(order, drug_box, quantity);
@@ -182,14 +177,13 @@ public class ConsoleApplication {
         session.save(order_drug);
     }
 
-    private void sendOrderBy(Integer order_id, String shipping_company) {
+    private void sendOrderBy(Integer order_id, String supplier) {
         Query query = session.createQuery("UPDATE Orders SET supplier = :supplier where order_id = :order_id");
-
-        query.setParameter("supplier", shipping_company);
+        query.setParameter("supplier", supplier);
         query.setParameter("order_id", order_id);
 
         query.executeUpdate();
-        System.out.println("Update succesful");
+        System.out.println("Update successful");
     }
 
 }

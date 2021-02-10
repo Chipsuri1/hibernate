@@ -24,11 +24,5 @@
         <property name="service_pin" type="java.lang.Integer">
             <column name="service_pin" length="30" not-null="true"/>
         </property>
-<!--        <set name="orders" table="`order`" inverse="true" lazy="true" fetch="select">-->
-<!--            <key>-->
-<!--                <column name="id" not-null="true"/>-->
-<!--            </key>-->
-<!--            <one-to-many class="Orders"/>-->
-<!--        </set>-->
     </class>
 </hibernate-mapping>

@@ -7,7 +7,6 @@
             <column name="drug_name" length="255" not-null="false"/>
             <generator class="assigned"></generator>
         </id>
-
         <property name="price" type="java.lang.Float">
             <column name="price" not-null="false"/>
         </property>

@@ -4,7 +4,6 @@ public class Box_Storage implements java.io.Serializable {
     private String storage_id;
 
     public Box_Storage(){
-
     }
 
     public Box_Storage(String box_id, String storage_id){

@@ -14,11 +14,5 @@
                      column="box_id" unique="true" not-null="false"
                      cascade="all">
         </many-to-one>
-<!--        <set name="box_storage" table="box_storage" lazy="true" fetch="select">-->
-<!--            <key>-->
-<!--                <column name="box_id" not-null="false"/>-->
-<!--            </key>-->
-<!--            <one-to-many class="Box_Storage"/>-->
-<!--        </set>-->
     </class>
 </hibernate-mapping>

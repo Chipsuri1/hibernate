@@ -6,7 +6,6 @@ public class Order_Drug implements java.io.Serializable {
     public Order_Drug() {
     }
 
-
     public Order_Drug(Orders order, Drug_Box drug_box, Integer amount) {
         this.order = order;
         this.drug_box = drug_box;

@@ -15,6 +15,5 @@ public class Application {
 
         ConsoleApplication consoleApplication = new ConsoleApplication();
         consoleApplication.start();
-
     }
 }
